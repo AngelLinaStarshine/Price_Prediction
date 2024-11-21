@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Key Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Paste Your SHA-256 Key</h2>
+        <form action="/validate_key" method="POST">
+            <textarea id="input-key" name="private_key" placeholder="Paste your SHA-256 key here" required></textarea>
+            <br>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bitcoin Price Prediction</p>
+    </footer>
+
+</body>
+</html>

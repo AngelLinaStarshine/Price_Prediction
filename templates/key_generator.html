@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Key Generator</title>
+    <link rel="stylesheet" href="../static/key_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+</head>
+<body>
+    <h1>Random Key Generator</h1>
+    <button id="generate-btn" onclick="generateRandomKey()">Generate Random Key</button>
+
+    <div id="key-input-section" style="display: none;">
+        <form id="key-form" action="/validate_key" method="POST" onsubmit="redirectToIndex(event)">
+
+            <textarea id="input-key" name="private_key" placeholder="Paste your SHA-256 key here" required></textarea>
+            <br>
+            <button type="submit" class="btn btn-primary">Proceed with Prediction</button>
+        </form>
+    </div>
+
+    <script>
+        let generatedKey = ''; 
+
+        function generateRandomKey() {
+
+            const array = new Uint8Array(32); 
+            window.crypto.getRandomValues(array); 
+
+            generatedKey = array.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+   
+            Swal.fire({
+                title: "<strong>Your Random Key</strong>",
+                icon: "info",
+                html: `
+                    <p><b>Key has been generated successfully. You can copy it by clicking the button below.</b></p>
+                `,
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: `Copy Key`,
+                cancelButtonText: 'Close',
+                preConfirm: () => {
+                    const inputElement = document.createElement('textarea');
+                    inputElement.value = generatedKey; 
+                    document.body.appendChild(inputElement);
+                    inputElement.select();
+                    document.execCommand('copy'); 
+                    document.body.removeChild(inputElement); 
+
+                 
+                    const generateBtn = document.getElementById('generate-btn');
+                    generateBtn.style.display = 'none'; 
+
+        
+                    document.getElementById('key-input-section').style.display = 'block';
+                    Swal.fire('Key Copied!', 'Your random key has been copied to the clipboard.', 'success');
+                }
+            });
+        }
+
+    
+        document.getElementById('input-key').addEventListener('input', function() {
+            const inputField = document.getElementById('input-key');
+            inputField.value = '**********************************************************************************';  
+        });
+
+        function redirectToIndex(event) {
+            event.preventDefault(); 
+            window.location.href = "index.html";  
+        }
+    </script>
+</body>
+</html>
