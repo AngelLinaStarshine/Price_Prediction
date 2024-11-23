@@ -170,7 +170,6 @@ def update_data():
     else:
         print("Failed to update data.")
 
-
 def generate_plot_and_data(future_df, df):
     plt.figure(figsize=(10, 6))
 
@@ -235,16 +234,13 @@ def update():
 def download():
     global global_data
 
-    # Retrieve SHA256 key from the request
     user_key = request.form.get('sha256_key')
 
-    # Define the correct SHA256 key
     correct_key = hashlib.sha256("your_secret_key".encode()).hexdigest()
 
     if user_key != correct_key:
         return jsonify({"error": "Invalid SHA256 key"}), 403
 
-    # Prepare the file content
     backtest_results = global_data.get("backtest_results", {})
     file_content = (
         f"Total profit from backtesting: {backtest_results.get('total_profit', 0):.2%}\n"
@@ -253,8 +249,6 @@ def download():
         f"R-squared: {backtest_results.get('r2', 0):.2f}\n"
         f"MAPE: {backtest_results.get('mape', 0):.2%}\n"
     )
-
-    # Send the file as a response
     return (
         file_content,
         200,
