@@ -10,18 +10,23 @@
     
     <h1>Bitcoin Price Prediction</h1>
     <button id="get-prediction-btn">Get Bitcoin Prediction</button>
+    
     <div id="plot-container" style="margin-top: 20px;">
     </div>
+    
+    <form id="download-form" method="POST" action="/download" style="display: none; margin-top: 20px;">
+        <label for="sha256-key"></label>
+        <input type="text" id="sha256-key" name="sha256_key" placeholder="Enter Your Key..." required />
+        <button type="submit">Download Data</button>
+    </form>
 
     <div id="current-week-table" style="margin-top: 20px;">
     </div>
 
     <div id="future-table" style="margin-top: 20px;">
     </div>
-   
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-  
-    
 </body>
 </html>
