@@ -35,4 +35,36 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    // Initially hide the download form
+    $('#download-form').hide();
+
+    // Event listener for "Get Bitcoin Prediction" button
+    $('#get-prediction-btn').on('click', function () {
+        // Simulate an API call to fetch prediction data
+        $.ajax({
+            url: '/data_analysis', // Endpoint to fetch prediction data
+            type: 'POST',
+            success: function (response) {
+                // Update plot and tables with response data
+                const plotUrl = response.plot_url;
+                $('#plot-container').html(`<img src="data:image/png;base64,${plotUrl}" alt="Prediction Plot" />`);
+
+                // Display the download form
+                $('#download-form').show();
+            },
+            error: function () {
+                alert('Failed to fetch Bitcoin prediction. Please try again.');
+            }
+        });
+    });
+});
+
+document.getElementById('download-form').addEventListener('submit', function (e) {
+    const keyInput = document.getElementById('sha256-key');
+    if (!keyInput.value.trim()) {
+        e.preventDefault();
+        alert('Please enter a SHA256 key to proceed.');
+    }
+});
 
